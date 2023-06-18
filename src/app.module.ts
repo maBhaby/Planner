@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+
+//https://docs.nestjs.com/techniques/mongodb
+const DB_URL =
+  'mongodb+srv://elveninsomnia:v9oll2m90sdl@cluster0.z1aczgk.mongodb.net/';
 
 @Module({
-  imports: [],
+  imports: [UsersModule, MongooseModule.forRoot(DB_URL)],
   controllers: [AppController],
   providers: [AppService],
 })
