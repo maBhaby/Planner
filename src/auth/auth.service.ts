@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import mongoose from 'mongoose';
 import { User } from 'src/users/schemas/user.schema';
@@ -27,9 +32,7 @@ export class AuthService {
   async register(username: string, pass: string): Promise<User> {
     const candidate = await this.usersService.getByName(username);
     if (candidate) {
-      console.log(candidate);
-
-      throw new Error('Already exist');
+      throw new HttpException('Already exists', HttpStatus.CONFLICT);
     }
 
     const hashedPass = bcrypt.hashSync(pass, 10);
