@@ -1,4 +1,4 @@
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type UserDocument = HydratedDocument<User>;
@@ -10,11 +10,15 @@ const validateEmail = (email: string): boolean => {
 
 @Schema()
 export class User {
-  constructor(name: string, password: string, roles: string[]) {
-    this.name = name;
+  constructor(username: string, password: string) {
+    this.username = username;
     this.password = password;
-    this.roles = roles;
   }
+
+  @Prop({
+    type: mongoose.Types.ObjectId,
+  })
+  _id: mongoose.Types.ObjectId;
 
   @Prop({
     required: true,
@@ -23,9 +27,9 @@ export class User {
     minlength: 3,
     maxlength: 16,
   })
-  name: string;
+  username: string;
 
-  @Prop({ required: true, trim: true })
+  @Prop({ required: true, trim: true, unique: false })
   password: string;
 
   @Prop({ trim: true, validate: [validateEmail] })
