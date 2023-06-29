@@ -32,7 +32,10 @@ export class AuthService {
   async register(username: string, pass: string): Promise<User> {
     const candidate = await this.usersService.getByName(username);
     if (candidate) {
-      throw new HttpException('Already exists', HttpStatus.CONFLICT);
+      throw new HttpException(
+        { reason: 'Пользователь с таким именем уже существует' },
+        HttpStatus.CONFLICT,
+      );
     }
 
     const hashedPass = bcrypt.hashSync(pass, 10);

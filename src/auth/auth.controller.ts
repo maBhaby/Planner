@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Post,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { SignInDto } from 'src/app.dts';
